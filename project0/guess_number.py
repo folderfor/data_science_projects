@@ -1,10 +1,6 @@
 import numpy as np
 
 
-def random_numer():
-    return np.random.randint(1,101)
-
-
 def random_predict(rnd_numb: int = 1, left: int = 1, right: int = 101, count=0) -> int:
     """Битовый поиск, только со случайными числами"""
     count += 1
@@ -18,10 +14,18 @@ def random_predict(rnd_numb: int = 1, left: int = 1, right: int = 101, count=0) 
     return random_predict(rnd_numb, left, right, count)
 
 
-list_ = []
-for _ in range(1000):
-    list_.append(random_predict(random_numer()))
+def score_game(random_predict) -> None:
+    """За какое количество попыток в среднем за 10000 подходов угадывает наш алгоритм
+    Args: random_predict ([type]): функция угадывания
+    """
+    count_ls = []
+    np.random.seed(1)  # фиксируем сид для воспроизводимости
+    random_array = np.random.randint(1, 101, size=(10000))  # загадали список чисел
 
-print(int(np.mean(list_)))
+    for number in random_array:
+        count_ls.append(random_predict(number))
 
+    score = int(np.mean(count_ls))
+    print(f"Ваш алгоритм угадывает число в среднем за: {score} попытки")
 
+score_game(random_predict)
